@@ -1,172 +1,128 @@
-# Gaze Tracking
+# Технология компьютерного зрения для распознавания глазного яблока человека
 
-![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)
-![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-[![GitHub stars](https://img.shields.io/github/stars/antoinelame/GazeTracking.svg?style=social)](https://github.com/antoinelame/GazeTracking/stargazers)
+Этот проект является курсовой работой в МАИ по предмету Систем искусственного интеллекта.
+Код предоставляет собой **систему отслеживания глаз на основе веб-камеры**. Система дает вам точное положение зрачков (помечая крестиком зрачок) и направление взгляда в режиме реального времени.
 
-This is a Python (2 and 3) library that provides a **webcam-based eye tracking system**. It gives you the exact position of the pupils and the gaze direction, in real time.
 
-[![Demo](https://i.imgur.com/WNqgQkO.gif)](https://youtu.be/YEZMk1P0-yw)
 
-_🚀 Quick note: I'm looking for job opportunities as a software developer, for exciting projects in ambitious companies. Anywhere in the world. Send me an email!_
+## Установка
 
-## Installation
-
-Clone this project:
+Скачайте (склонируйте репозиторий):
 
 ```shell
 git clone https://github.com/antoinelame/GazeTracking.git
 ```
 
-### For Pip install
-Install these dependencies (NumPy, OpenCV, Dlib):
+### Для Pip установки зависимостей
+Установка библиотек (NumPy, OpenCV, Dlib):
 
 ```shell
 pip install -r requirements.txt
 ```
+> Библиотека Dlib имеет четыре основных необходимых компонента: Boost, Boost.Python, CMake and X11/XQuartx. Если у вас их нет, вы можете [прочитать эту статью](https://www.pyimagesearch.com/2017/03/27/how-to-install-dlib/), чтобы узнать, как их легко установить.
 
-> The Dlib library has four primary prerequisites: Boost, Boost.Python, CMake and X11/XQuartx. If you doesn't have them, you can [read this article](https://www.pyimagesearch.com/2017/03/27/how-to-install-dlib/) to know how to easily install them.
 
-
-### For Anaconda install
-Install these dependencies (NumPy, OpenCV, Dlib):
+### Для установки через Anaconda 
+Установка библиотек  (NumPy, OpenCV, Dlib):
 
 ```shell
 conda env create --file environment.yml
-#After creating environment, activate it
+#после создания среды, активация его
 conda activate GazeTracking
 ```
 
 
-### Verify Installation
+### Запуск решения
 
-Run the demo:
+Запуск кода:
 
 ```shell
 python example.py
 ```
 
-## Simple Demo
 
-```python
-import cv2
-from gaze_tracking import GazeTracking
+## Разработанные функции
 
-gaze = GazeTracking()
-webcam = cv2.VideoCapture(0)
+В следующих примерах, `gaze` ссылается на экземпляр `GazeTracking` класса.
 
-while True:
-    _, frame = webcam.read()
-    gaze.refresh(frame)
-
-    new_frame = gaze.annotated_frame()
-    text = ""
-
-    if gaze.is_right():
-        text = "Looking right"
-    elif gaze.is_left():
-        text = "Looking left"
-    elif gaze.is_center():
-        text = "Looking center"
-
-    cv2.putText(new_frame, text, (60, 60), cv2.FONT_HERSHEY_DUPLEX, 2, (255, 0, 0), 2)
-    cv2.imshow("Demo", new_frame)
-
-    if cv2.waitKey(1) == 27:
-        break
-```
-
-## Documentation
-
-In the following examples, `gaze` refers to an instance of the `GazeTracking` class.
-
-### Refresh the frame
+### Обновление кадра с камеры
 
 ```python
 gaze.refresh(frame)
 ```
 
-Pass the frame to analyze (numpy.ndarray). If you want to work with a video stream, you need to put this instruction in a loop, like the example above.
+Передает кадр для анализа (numpy.ndarray). Для работы с видеопотоком, вам нужно поместить эту инструкцию в цикл, как в примере выше.
 
-### Position of the left pupil
+### Положение левого зрачка
 
 ```python
 gaze.pupil_left_coords()
 ```
 
-Returns the coordinates (x,y) of the left pupil.
+Возвращает координаты (x,y) левого зрачка.
 
-### Position of the right pupil
+### Положение правого зрачка
 
 ```python
 gaze.pupil_right_coords()
 ```
 
-Returns the coordinates (x,y) of the right pupil.
+Возвращает координаты (x,y) правого зрачка.
 
-### Looking to the left
+### Смотрим ли влевую часть экрана?
 
 ```python
 gaze.is_left()
 ```
 
-Returns `True` if the user is looking to the left.
+Возвращает `True`, если пользователь смотрит влево.
 
-### Looking to the right
+### Смотрим ли вправую часть экрана?
 
 ```python
 gaze.is_right()
 ```
 
-Returns `True` if the user is looking to the right.
+Возвращает `True`, если пользователь смотрит вправо.
 
-### Looking at the center
+### Смотрим ли в центр экрана?
 
 ```python
 gaze.is_center()
 ```
 
-Returns `True` if the user is looking at the center.
+Возвращает значение "True", если пользователь смотрит в центр.
 
-### Horizontal direction of the gaze
+### Горизонтальное направление взгляда
 
 ```python
 ratio = gaze.horizontal_ratio()
 ```
 
-Returns a number between 0.0 and 1.0 that indicates the horizontal direction of the gaze. The extreme right is 0.0, the center is 0.5 and the extreme left is 1.0.
+Возвращает число от 0,0 до 1,0, указывающее горизонтальное направление взгляда. Крайний правый угол равен 0,0, центральный - 0,5, а крайний левый - 1,0.
 
-### Vertical direction of the gaze
+### Вертикальное направление взгляда
 
 ```python
 ratio = gaze.vertical_ratio()
 ```
 
-Returns a number between 0.0 and 1.0 that indicates the vertical direction of the gaze. The extreme top is 0.0, the center is 0.5 and the extreme bottom is 1.0.
+Возвращает число от 0,0 до 1,0, указывающее вертикальное направление взгляда. Крайняя верхняя точка равна 0,0, центральная - 0,5, а крайняя нижняя - 1,0.
 
-### Blinking
+### Моргание
 
 ```python
 gaze.is_blinking()
 ```
 
-Returns `True` if the user's eyes are closed.
+Возвращает значение `True`, если глаза пользователя закрыты.
 
-### Webcam frame
+### Кадр веб-камеры
 
 ```python
 frame = gaze.annotated_frame()
 ```
 
-Returns the main frame with pupils highlighted.
+Возвращает основной кадр с выделенными зрачками.
 
-## You want to help?
 
-Your suggestions, bugs reports and pull requests are welcome and appreciated. You can also starring ⭐️ the project!
-
-If the detection of your pupils is not completely optimal, you can send me a video sample of you looking in different directions. I would use it to improve the algorithm.
-
-## Licensing
-
-This project is released by Antoine Lamé under the terms of the MIT Open Source License. View LICENSE for more information.
