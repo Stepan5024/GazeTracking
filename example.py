@@ -10,10 +10,10 @@ gaze = GazeTracking()
 webcam = cv2.VideoCapture(0)
 
 while True:
-    # We get a new frame from the webcam
+    # get a new frame from the webcam
     _, frame = webcam.read()
 
-    # We send this frame to GazeTracking to analyze it
+    # send this frame to GazeTracking to analyze it
     gaze.refresh(frame)
 
     frame = gaze.annotated_frame()

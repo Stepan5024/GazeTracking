@@ -111,9 +111,9 @@ class GazeTracking(object):
             x = self.eye_left.origin[0] + self.eye_left.pupil.x
             y = self.eye_left.origin[1] + self.eye_left.pupil.y
             return (x, y)
-        else:
+        #else:
         # Возвращает None, если координаты зрачка не были обнаружены.
-            return None
+            #return None
 
     def pupil_right_coords(self):
         """Возвращает координаты правого зрачка
@@ -140,9 +140,9 @@ class GazeTracking(object):
             pupil_left = self.eye_left.pupil.x / (self.eye_left.center[0] * 2 - 10)
             pupil_right = self.eye_right.pupil.x / (self.eye_right.center[0] * 2 - 10)
             return (pupil_left + pupil_right) / 2
-        else:
+        #else:
             # Возвращает None, если координаты зрачка не были обнаружены.
-            return None
+            #return None
 
     def vertical_ratio(self):
         """Возвращает число от 0,0 до 1,0, указывающее
@@ -161,19 +161,19 @@ class GazeTracking(object):
             pupil_right = self.eye_right.pupil.y / (self.eye_right.center[1] * 2 - 10)
              # Возвращает среднее значение относительных вертикальных положений зрачков.
             return (pupil_left + pupil_right) / 2
-        else:
+        #else:
             # Возвращает None, если координаты зрачка не были обнаружены.
-            return None
+            #return None
 
     def is_right(self):
         """Возвращает значение true, если пользователь смотрит вправо"""
         if self.pupils_located:
-            return self.horizontal_ratio() <= 0.65
+            return self.horizontal_ratio() <= 0.75
 
     def is_left(self):
         """Возвращает значение true, если пользователь смотрит влево"""
         if self.pupils_located:
-            return self.horizontal_ratio() >= 0.65
+            return self.horizontal_ratio() >= 0.35
 
     def is_center(self):
         """Возвращает значение true, если пользователь смотрит по центру"""
